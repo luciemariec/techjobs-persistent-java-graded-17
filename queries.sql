@@ -5,7 +5,13 @@
 -- employer(VARCHAR)
 -- name(VARCHAR)
 -- skills(VARCHAR)
+
 --Part 2
+--write a SQL query to list the names of employers only in St. Louis City
+SELECT name
+FROM employer
+WHERE location = "St. Louis City";
+
 
 --Part 3
 
