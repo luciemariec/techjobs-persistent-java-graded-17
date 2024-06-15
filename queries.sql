@@ -18,3 +18,9 @@ WHERE location = "St. Louis City";
 DROP TABLE job;
 
 --Part 4
+-- write a SQL query to return the names of all skills attached to jobs in alphabetical order
+SELECT * FROM skill
+INNER JOIN job_skills ON skill.id = job_skills.skills_id
+WHERE job_skills.jobs_id IS NOT NULL
+ORDER BY name ASC;
+--If a skill does not have a job listed, it should not be included in the results of this query
