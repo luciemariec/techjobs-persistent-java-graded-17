@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-//modeled EmployerController - modified routing and methods to use data for skills
 @Controller
 @RequestMapping("skills")
 public class SkillController {
@@ -28,7 +27,7 @@ public class SkillController {
         return "skills/index";
     }
 
-    //modeled EmployerController
+    // Displays the form to add a new skill
     @GetMapping("add")
     public String displayAddSkillForm(Model model) {
         model.addAttribute("skill", new Skill());
@@ -36,21 +35,23 @@ public class SkillController {
         return "skills/add";
     }
 
-    //modeled EmployerController
+    // Processes the form to add a new skill
     @PostMapping("add")
     public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill,
                                       Errors errors, Model model) {
+        // Check if there are any validation errors
         if (errors.hasErrors()) {
             return "skills/add";
         }
-        // add a method to save a valid employer object using the newSkill object
+        // Save the new Skill object to the repository
         skillRepository.save(newSkill);
         return "redirect:";
     }
 
-    // GET: /skills/view/{skillId}
+    // displays details for a specific skill
     @GetMapping("view/{skillId}")
     public String displayViewSkill(Model model, @PathVariable int skillId) {
+        // Retrieve the skill by its ID from the repository
         Optional<Skill> optSkill = skillRepository.findById(skillId);
         if (optSkill.isPresent()) {
             Skill skill = optSkill.get();

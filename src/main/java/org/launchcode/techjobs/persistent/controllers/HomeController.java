@@ -53,20 +53,20 @@ public class HomeController {
                                     Errors errors, Model model,
                                     @RequestParam int employerId,
                                     @RequestParam List<Integer> skills) {
-
+    //Check if there are any validation errors
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
             model.addAttribute("skills", skillRepository.findAll());
             return "add";
         }
-
+        //Retrieve the employer object by employerId from the repository
         Employer employer = employerRepository.findById(employerId).orElse(new Employer());
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
         newJob.setEmployer(employer);
         newJob.setSkills(skillObjs);
 
-        // Save the new job to the database
+        // Save the new job to the repository
         jobRepository.save(newJob);
 
         return "redirect:";

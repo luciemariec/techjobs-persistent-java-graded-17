@@ -29,14 +29,17 @@ public class ListController {
     @Autowired
     private SkillRepository skillRepository;
 
+    // A static HashMap to store column choices for job search
     static HashMap<String, String> columnChoices = new HashMap<>();
 
+    // Constructor to initialize the columnChoices map
     public ListController () {
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
         columnChoices.put("skill", "Skill");
     }
 
+    // Handler for the root path of this controller
     @RequestMapping("")
     public String list(Model model) {
         model.addAttribute("employers", employerRepository.findAll());
@@ -45,6 +48,7 @@ public class ListController {
         return "list";
     }
 
+    // Handler for the jobs path, filtering jobs by a column and value
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
         Iterable<Job> jobs;
