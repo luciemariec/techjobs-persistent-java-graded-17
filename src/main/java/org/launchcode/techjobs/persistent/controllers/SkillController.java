@@ -11,35 +11,39 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+//modeled EmployerController - modified routing and methods to use data for skills
 @Controller
 @RequestMapping("skills")
 public class SkillController {
 
+    // Add private field of SkillRepository type called skillRepository
     @Autowired
     private SkillRepository skillRepository;
 
     // responds at /skills with a list of all skills in the database
     @GetMapping("/")
     public String index(Model model) {
-        Iterable<Skill> skills = skillRepository.findAll();
-        model.addAttribute("skills", skills);
+        //pass skills to the "view" using model.addAttribute to display list of all employers using findAll()
+        model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
     }
 
-    // GET: /skills/add
+    //modeled EmployerController
     @GetMapping("add")
     public String displayAddSkillForm(Model model) {
         model.addAttribute("skill", new Skill());
+        // changed routing to /skills/add
         return "skills/add";
     }
 
-    // POST: /skills/add
+    //modeled EmployerController
     @PostMapping("add")
     public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill,
                                       Errors errors, Model model) {
         if (errors.hasErrors()) {
             return "skills/add";
         }
+        // add a method to save a valid employer object using the newSkill object
         skillRepository.save(newSkill);
         return "redirect:";
     }

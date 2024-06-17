@@ -14,12 +14,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 /**
-
- Created by LaunchCode
+ * Created by LaunchCode
  */
 @Controller
 public class HomeController {
@@ -36,6 +33,9 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("title", "MyJobs");
+        // Fetch the list of jobs and add it to the model
+        List<Job> jobs = (List<Job>) jobRepository.findAll();
+        model.addAttribute("jobs", jobs);
         return "index";
     }
 
@@ -61,29 +61,22 @@ public class HomeController {
             return "add";
         }
 
-        // retrieve the selected employer using the employerRepository
         Employer employer = employerRepository.findById(employerId).orElse(new Employer());
-        // retrieve the selected skills using the skillRepository
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        // set the selected employer for the job
         newJob.setEmployer(employer);
-        // set the selected skills for the job
         newJob.setSkills(skillObjs);
 
+        // Save the new job to the database
+        jobRepository.save(newJob);
 
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-        Optional<Job> result = jobRepository.findById(jobId);
-        if (result.isPresent()) {
-            Job job = result.get();
-            model.addAttribute("job", job);
-        } else {
-// handle the case where the job is not found
-        }
+        // Retrieve the job by id and add it to the model
+        Job job = jobRepository.findById(jobId).orElse(new Job());
+        model.addAttribute("job", job);
         return "view";
     }
-
 }

@@ -15,14 +15,17 @@ import java.util.Optional;
 @RequestMapping("employers")
 public class EmployerController {
 
+    //give employerRepository @Autowired annotation
     @Autowired
+    //Add private field of EmployerRepository type called employerRepository
     private EmployerRepository employerRepository;
 
     //responds at /employers  with a list of all employers in the database
     @GetMapping("/")
     public String index(Model model) {
-        Iterable<Employer> employers = employerRepository.findAll();
-        model.addAttribute("employers", employers);
+        //pass employers to the "view" using model.addAttribute to display list of all employers using findAll()
+        model.addAttribute("employer", employerRepository.findAll());
+        //use template employer/index
         return "employers/index";
     }
 
@@ -39,6 +42,7 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }
+        // add method to save valid employer object using newEmployer object
         employerRepository.save(newEmployer);
         return "redirect:";
     }
@@ -46,6 +50,8 @@ public class EmployerController {
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
+        //replace the null value in optEmployer using the findById method passing in
+        //employerId to find a specific employer object in the database
         Optional<Employer> optEmployer =  employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
             Employer employer = optEmployer.get();

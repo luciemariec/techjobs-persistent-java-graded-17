@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
+// SkillRepository extends CrudRepository
 public interface SkillRepository extends CrudRepository<Skill, Integer> {
 }

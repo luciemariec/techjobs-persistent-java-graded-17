@@ -11,15 +11,20 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
+// Add the @MappedSuperclass
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    //Add the @Id and @GeneratedValue annotations to the id field
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
 
-    @NotBlank(message= "Name is required")
-    @Size(max=100, message = "Name must be less than 100 characters")
+    // Add appropriate validation annotations on the name field so that:
+    // 1. a user cannot leave the name field blank
+    // 2. there are reasonable limitations on the size of the name string
+    @NotNull
+    @Size(min = 2, max = 100)
     private String name;
 
     public int getId() { return id;
