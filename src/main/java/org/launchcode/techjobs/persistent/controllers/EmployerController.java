@@ -24,7 +24,7 @@ public class EmployerController {
     @GetMapping("/")
     public String index(Model model) {
         //pass employers to the "view" using model.addAttribute to display list of all employers using findAll()
-        model.addAttribute("employer", employerRepository.findAll());
+        model.addAttribute("employers", employerRepository.findAll());
         //use template employer/index
         return "employers/index";
     }
@@ -44,7 +44,7 @@ public class EmployerController {
         }
         // add method to save valid employer object using newEmployer object
         employerRepository.save(newEmployer);
-        return "redirect:";
+        return "redirect:/employers/";
     }
 
     @GetMapping("view/{employerId}")
